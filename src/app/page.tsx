@@ -27,7 +27,9 @@ export default function Home() {
           
 
         <div className="flex flex-col h-[100vh] pt-[80px] w-full px-[50px]">
-          <span className="text-[30px] font-[600] text-center" >Perkembangan AI makin melesat, Apakah kita siap?</span>
+          <span className="text-[30px] font-[600] text-center" >Perkembangan AI makin melesat, Apakah kita
+            <span className="text-[#60569c]"> siap?</span>
+          </span>
           <div className="flex mt-[100px] justify-between">
             <div className="flex flex-col w-[500px]">
               <p className="text-[18px] font-[600]">Apa yang dikatakan Elon Musk?</p>
