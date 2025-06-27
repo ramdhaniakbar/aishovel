@@ -6,7 +6,7 @@ import CardAnimation from "./component/home-card-anm";
 export default function Home() {
 
   return (
-    <div className="">
+    <div>
       <Navbar/>
       <main className="flex flex-col row-start-2 items-center sm:items-start" 
       style={{
@@ -26,8 +26,28 @@ export default function Home() {
         </div>
           
 
-        <div>
+        <div className="flex flex-col h-[100vh] pt-[80px] w-full px-[50px]">
+          <span className="text-[30px] font-[600] text-center" >Perkembangan AI makin melesat, Apakah kita siap?</span>
+          <div className="flex mt-[100px] justify-between">
+            <div className="flex flex-col w-[500px]">
+              <p className="text-[18px] font-[600]">Apa yang dikatakan Elon Musk?</p>
+              <p>AI development, he said, needs to be grounded in truth-seeking and rigorous safety protocols, in order to prevent it from spinning out of control. “I think we’re quite close to digital superintelligence,” he said. “If it doesn’t happen this year, next year for sure.”</p>
+              <p className="font-[500]">source: Inc.com</p>
+              <br />
+              <p>katanya, Pengembangan AI, perlu didasarkan pada pencarian kebenaran dan protokol keselamatan yang ketat, untuk mencegahnya lepas kendali. "Saya pikir kita sudah cukup dekat dengan kecerdasan digital super," katanya. "Jika itu tidak terjadi tahun ini, tahun depan pasti."</p>
+              </div>
 
+            <div>
+              <Image 
+                className="rounded-[30px]"
+                aria-hidden
+                src="/home/component/elon.jpg"
+                alt="Elon Musk"
+                width={250}
+                height={250}
+              />
+            </div>
+          </div>
         </div>
         
       </main>
