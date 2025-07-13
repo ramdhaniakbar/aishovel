@@ -117,7 +117,7 @@ export default function Home() {
             <p className="text-center text-white" id="news">
                 Jadilah yang paling pertama mengetahui informasi terbaru
               </p>
-            <HomeNews/>
+            <HomeNews params="home"/>
           </div>
           <div className="flex flex-col h-[100vh] pt-[80px] w-full px-[100px]">
             <span className="text-[30px] font-[600] text-center">

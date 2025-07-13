@@ -57,7 +57,7 @@ const [auth, setAuth] = useState(false);
                 </div>
                 <div className='flex justify-center w-[50%] h-full rounded-r-3xl max-[1200px]:hidden'
                     style={{
-                        backgroundImage: `url('/detail/component/authd.png')`,
+                        backgroundImage: "url('/detail/component/authd.png')",
                         backgroundSize: "cover", // Gambar akan menutupi seluruh area
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",
