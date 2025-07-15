@@ -21,9 +21,9 @@ const HomeNews = ({params} : {params:string}) => {
   }, [])
   if (params === 'home') {
     return (
-        <div className="flex w-full justify-between mt-[100px] gap-[30px]">
+        <div className="flex w-full justify-between mt-[100px] max-[640px]:mt-[50px] gap-[30px] max-[1000px]:flex-col">
             <div className="max-w-[800px]">
-                <p className=" text-[30px] text-white font-[600] mb-[20px] bg-[#242424]">
+                <p className=" text-[30px] max-[640px]:text-[20px] text-white font-[600] mb-[20px] bg-[#242424]">
                     {data?.[activeIndex]?.judul}
                 </p>
                 <img
@@ -32,45 +32,59 @@ const HomeNews = ({params} : {params:string}) => {
                 src={data?.[activeIndex]?.gambar || '/home/news/news.png'}
                 alt="News"
                 />
-                <div className="mt-[100px] bg-[rgba(51,51,51,0.3)] rounded-[20px] p-[40px] backdrop-blur-[3px] text-white gap-[10px] flex flex-col">
+                <div className="mt-[100px] max-[640px]:mt-[50px] bg-[rgba(51,51,51,0.3)] rounded-[20px] p-[40px] max-[640px]:p-[20px] backdrop-blur-[3px] text-white gap-[10px] flex flex-col max-[640px]:max-h-[700px] ">
                 <p>
                     {
                         (() => {
-                        const text = data?.[activeIndex]?.konten || '';
-                        const sentences = text.split('.');
+                            const text = data?.[activeIndex]?.konten || '';
+                            const sentences = text.split('.');
+                            const result = [];
 
-                        const result = [];
+                            let wordCount = 0;
+                            const isWide = typeof window !== 'undefined' && window.innerWidth < 640;
 
-                        for (let i = 0; i < sentences.length; i++) {
+                            for (let i = 0; i < sentences.length; i++) {
                             const sentence = sentences[i].trim();
                             if (!sentence) continue;
 
-                            // Tambahkan kalimat
-                            result.push(sentence + '. ');
+                            const words = sentence.split(/\s+/);
 
-                            // Setiap 4 kalimat, tambahkan 2x <br />
-                            if ((i + 1) % 4 === 0) {
-                            result.push(<br key={`br1-${i}`} />);
-                            result.push(<br key={`br2-${i}`} />);
+                            if (isWide && wordCount + words.length > 70) {
+                                // ambil sisa kata yang bisa ditambah
+                                const remainingWords = 70 - wordCount;
+                                const trimmedSentence = words.slice(0, remainingWords).join(' ');
+                                result.push(trimmedSentence + '. ');
+                                break;
                             }
+
+                            result.push(sentence + '. ');
+                            wordCount += words.length;
+
+                            // Setiap 4 kalimat (string), tambahkan <br /><br />
+                            const stringCount = result.filter(r => typeof r === 'string').length;
+                            if (stringCount % 4 === 0) {
+                                result.push(<br key={`br1-${i}`} />);
+                                result.push(<br key={`br2-${i}`} />);
+                            }
+                            }
+
+                            return result;
+                        })()
                         }
 
-                        return result;
-                        })()
-                    }
                     </p>
                 </div>
                 <div className='flex justify-center items-center mt-[50px] text-white'>
                     <button onClick={() => window.open(data?.[activeIndex]?.link, '_blank')} className='w-[200px] h-[60px] bg-[#65549e] rounded-2xl hover:bg-[#443d6f] cursor-pointer'>Baca Selengkapnya</button>
                 </div>
             </div>
-            <div className="w-[400px] flex flex-col gap-[20px]">
+            <div className="w-[400px] max-[1000px]:w-full flex flex-col gap-[20px] max-[1000px]:flex-row max-[1000px]:overflow-auto">
                 {data && Array.from({ length: data.length}).map((_, i) => (
                 <div key={i} className={`relative group rounded-[30px] min-w-[300px] h-[200px] overflow-hidden ${i === activeIndex ? 'hidden' : ''}`}>
                     <div className={`absolute inset-0 bg-cover bg-center`} 
                     style={{backgroundImage: `url(${data[i].gambar})`}}/>
-                    <div className="absolute inset-0 group-hover:bg-[rgba(51,51,51,0.5)]" />
-                    <div className="relative z-10 p-[20px] flex items-end h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 group-hover:bg-[rgba(51,51,51,0.5)] max-[1000px]:bg-[rgba(51,51,51,0.4)] max-[1000px]:group-hover:bg-[rgba(51,51,51,0.7)]" />
+                    <div className="relative z-10 p-[20px] flex items-end h-full min-[1000px]:opacity-0 min-[1000px]:group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-white font-[500] cursor-pointer hover:underline decoration-1 underline-offset-[2px]" onClick={() => setActiveIndex(i)}>
                         {data[i].judul}
                     </span>

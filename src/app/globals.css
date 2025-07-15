@@ -87,3 +87,26 @@ body {
   color: var(--foreground);
   font-family: 'Poppins', sans-serif;
 }
+
+/* Scrollbar track (latar belakang) */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #e0e0e0; /* ← warna belakang scrollbar */
+}
+
+/* Scrollbar itu sendiri (bagian yang digeser) */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;     /* warna scroll thumb */
+  border-radius: 10px;
+  border: 3px solid #e0e0e0;  /* warna sekeliling thumb, cocokkan dengan track */
+}
+
+/* Ukuran scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Firefox (jika perlu) */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #e0e0e0;
+}

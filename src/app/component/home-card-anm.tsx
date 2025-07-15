@@ -51,7 +51,7 @@ const CardAnimation = () => {
     }, [charIndex, textIndex]);
 
     return (
-        <div className="flex justify-center items-center m-auto flex-col">
+        <div className="flex justify-center items-center m-auto flex-col max-[1100px]:hidden">
         <div className="flex justify-center items-center flex-row gap-[20px] h-[300px] relative">
             <Image
             className={`${classSets[index][0]} absolute transition-all duration-700 ease-in-out`}

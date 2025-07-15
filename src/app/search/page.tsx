@@ -7,23 +7,43 @@ import FooterCompo from '../component/footer-compo'
 const Search = () => {
   const [data, setData] = useState<Property[] | []>([]);
   const [inputSearch, setInputSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(''); // State untuk kategori yang dipilih
   const [page, setPage] = useState(1);
-  const filteredData = data.filter((item) =>
-      item.nama.toLowerCase().includes(inputSearch.toLowerCase())
-    );
+  
+  // Filter data berdasarkan search input dan kategori
+  const filteredData = data.filter((item) => {
+    const matchesSearch = item.nama.toLowerCase().includes(inputSearch.toLowerCase());
+    const matchesCategory = selectedCategory === '' || item.kategori.toLowerCase() === selectedCategory.toLowerCase();
+    return matchesSearch && matchesCategory;
+  });
+  
   const pagination = Array.from({ length: Math.ceil(filteredData.length / 6) }, (_, i) => filteredData.slice(i * 6, (i + 1) * 6));
+  
+  // Reset halaman ke 1 ketika filter berubah
+  useEffect(() => {
+    setPage(1);
+  }, [inputSearch, selectedCategory]);
+  
   useEffect(() => {
     getSearch().then((value : Property[] | null) => {
       if (!value) return;
       setData(value);
     })
-  })
+  }, []) // Tambahkan dependency array kosong
+  
   interface Property {
     id: number;
     nama: string;
     quote: string;
     kategori: string;
   }
+  
+  // Dapatkan kategori unik dari data
+  const getUniqueCategories = () => {
+    const categories = data.map(item => item.kategori);
+    return [...new Set(categories)];
+  };
+  
   return (
     <>
     <div>
@@ -36,7 +56,7 @@ const Search = () => {
                 backgroundAttachment: "fixed",
                 minHeight: "100vh",
         }}>
-          <Navbar page={false}/>
+          <Navbar page={false} auth={false}/>
           <div className="flex flex-col h-full pt-[80px] w-full px-[100px]">
             <div className='flex flex-row gap-[20px] w-full justify-center mt-[40px]'>
               <div className='bg-white shadow-md rounded-2xl w-full max-w-[700px] h-[50px] px-[20px] flex'>
@@ -47,7 +67,11 @@ const Search = () => {
                 }}/>
               </div>
               <div className='bg-white shadow-md rounded-2xl w-[300px] h-[50px] flex px-[20px]'>
-                <InputDropdown />
+                <InputDropdown 
+                  options={getUniqueCategories()}
+                  selectedValue={selectedCategory}
+                  onValueChange={setSelectedCategory}
+                />
               </div>
             </div>
             <div className='flex flex-col w-full h-[90vh] justify-between'>
@@ -67,6 +91,14 @@ const Search = () => {
                   ))
                 }
               </div>
+              
+              {/* Tampilkan info jika tidak ada data */}
+              {filteredData.length === 0 && (
+                <div className='flex justify-center items-center h-[300px]'>
+                  <p className='text-gray-500'>Tidak ada data yang sesuai dengan pencarian</p>
+                </div>
+              )}
+              
               <div className='flex h-[100px] w-full justify-center items-center gap-[30px] '>
                   <div className="z-10">
                     <button onClick={() =>page> 1 ? setPage(page-1) : setPage(page)} className={`${page> 1 ? 'opacity-100 cursor-pointer' : 'opacity-0'} px-3 py-3 rounded cursor-pointer hover:bg-gray-200`}>
@@ -103,62 +135,103 @@ const Search = () => {
   )
 }
 
-const options = ['General', 'Game'];
+interface InputDropdownProps {
+  options: string[];
+  selectedValue: string;
+  onValueChange: (value: string) => void;
+}
 
-function InputDropdown() {
+function InputDropdown({ options, selectedValue, onValueChange }: InputDropdownProps) {
     const [inputValue, setInputValue] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
+
+    // Update inputValue ketika selectedValue berubah
+    useEffect(() => {
+      setInputValue(selectedValue);
+    }, [selectedValue]);
 
     const filteredOptions = options.filter((item) =>
       item.toLowerCase().includes(inputValue.toLowerCase())
     );
+    
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const isValid = options.some(
-        (item) => item.toLowerCase() === inputValue.trim().toLowerCase()
-      );
-      if (!isValid) {
-        if (filteredOptions.length > 0) {
-          setInputValue(filteredOptions[0]);
+      if (e.key === 'Enter') {
+        const isValid = options.some(
+          (item) => item.toLowerCase() === inputValue.trim().toLowerCase()
+        );
+        if (!isValid) {
+          if (filteredOptions.length > 0) {
+            setInputValue(filteredOptions[0]);
+            onValueChange(filteredOptions[0]);
+          } else {
+            setInputValue('');
+            onValueChange('');
+          }
+        } else {
+          onValueChange(inputValue.trim());
         }
-        else{
-          setInputValue('');
-        }
-        
+        setShowDropdown(false);
       }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setInputValue(value);
+      setShowDropdown(true);
+      
+      // Jika input kosong, reset filter
+      if (value === '') {
+        onValueChange('');
+      }
+    };
+
+    const handleOptionClick = (item: string) => {
+      setInputValue(item);
+      onValueChange(item);
       setShowDropdown(false);
-    }
-  };
+    };
+
+    const handleClearFilter = () => {
+      setInputValue('');
+      onValueChange('');
+      setShowDropdown(false);
+    };
 
     return (
       <div className="relative w-full">
-        <input
-          type="text"
-          className="w-full focus:outline-none h-full"
-          value={inputValue}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-            setShowDropdown(true);
-          }}
-          onKeyDown={handleKeyDown}
-          onFocus={() => setShowDropdown(true)}
-          onBlur={() => {
-            // Delay sedikit agar klik di dropdown keburu tereksekusi
-            setTimeout(() => setShowDropdown(false), 100);
-          }}
-          placeholder="Kategori"
-        />
+        <div className="flex items-center w-full h-full">
+          <input
+            type="text"
+            className="w-full focus:outline-none h-full pr-8"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setShowDropdown(true)}
+            onBlur={() => {
+              setTimeout(() => setShowDropdown(false), 100);
+            }}
+            placeholder="Kategori"
+          />
+          {/* Tombol clear filter */}
+          {selectedValue && (
+            <button
+              onClick={handleClearFilter}
+              className="absolute right-2 text-gray-400 hover:text-gray-600"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
 
         {showDropdown && filteredOptions.length > 0 && (
-          <ul className="absolute w-full rounded-b shadow-md max-h-60 overflow-auto bg-[#fbfbfb]">
+          <ul className="absolute w-full rounded-b shadow-md max-h-60 overflow-auto bg-[#fbfbfb] z-20">
             {filteredOptions.map((item, index) => (
               <li
                 key={index}
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                onMouseDown={() => {
-                  setInputValue(item);
-                  setShowDropdown(false);
-                }}
+                onMouseDown={() => handleOptionClick(item)}
               >
                 {item}
               </li>
