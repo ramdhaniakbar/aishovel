@@ -21,9 +21,9 @@ const HomeNews = ({params} : {params:string}) => {
   }, [])
   if (params === 'home') {
     return (
-        <div className="flex w-full justify-between mt-[100px] max-[640px]:mt-[50px] gap-[30px] max-[1000px]:flex-col">
+        <div className="flex w-full justify-between mt-[100px] max-[950px]:mt-[50px] gap-[30px] max-[1000px]:flex-col">
             <div className="max-w-[800px]">
-                <p className=" text-[30px] max-[640px]:text-[20px] text-white font-[600] mb-[20px] bg-[#242424]">
+                <p className=" text-[30px] max-[950px]:text-[20px] text-white font-[600] mb-[20px] bg-[#242424]">
                     {data?.[activeIndex]?.judul}
                 </p>
                 <img
@@ -32,7 +32,7 @@ const HomeNews = ({params} : {params:string}) => {
                 src={data?.[activeIndex]?.gambar || '/home/news/news.png'}
                 alt="News"
                 />
-                <div className="mt-[100px] max-[640px]:mt-[50px] bg-[rgba(51,51,51,0.3)] rounded-[20px] p-[40px] max-[640px]:p-[20px] backdrop-blur-[3px] text-white gap-[10px] flex flex-col max-[640px]:max-h-[700px] ">
+                <div className="mt-[100px] max-[950px]:mt-[50px] bg-[rgba(51,51,51,0.3)] rounded-[20px] p-[40px] max-[950px]:p-[20px] backdrop-blur-[3px] text-white gap-[10px] flex flex-col max-[950px]:max-h-[700px] ">
                 <p>
                     {
                         (() => {

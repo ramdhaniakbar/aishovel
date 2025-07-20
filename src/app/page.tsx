@@ -119,42 +119,37 @@ export default function Home() {
               </p>
             <HomeNews params="home"/>
           </div>
-          <div className="flex flex-col h-[100vh] pt-[80px] w-full px-[100px]">
+          <div className="flex flex-col h-fit pt-[80px] w-full px-[100px] gap-[50px]">
             <span className="text-[30px] font-[600] text-center">
               Apa yang membuat kami<span className="text-[#71C0BB]"> berbeda?</span>
             </span>
-            <div className="flex mt-[100px] justify-between font-[300]">
-              <div className="flex flex-col w-[500px]">
-                <p className="text-[18px] font-[600]">
-                  Apa yang dikatakan Elon Musk?
-                </p>
-                <p>
-                  AI development, he said, needs to be grounded in truth-seeking
-                  and rigorous safety protocols, in order to prevent it from
-                  spinning out of control. “I think we’re quite close to digital
-                  superintelligence,” he said. “If it doesn’t happen this year,
-                  next year for sure.”
-                </p>
-                <p className="font-[500]">source: Inc.com</p>
-                <br />
-                <p>
-                  katanya, Pengembangan AI, perlu didasarkan pada pencarian
-                  kebenaran dan protokol keselamatan yang ketat, untuk
-                  mencegahnya lepas kendali. "Saya pikir kita sudah cukup dekat
-                  dengan kecerdasan digital super," katanya. "Jika itu tidak
-                  terjadi tahun ini, tahun depan pasti."
-                </p>
+            <div className="w-full flex gap-[20px] justify-center flex-wrap">
+              <div className="flex flex-col items-center p-[20px] w-[300px] h-[300px] rounded-3xl bg-white shadow-2xl text-black hover:bg-[#242424] hover:text-white cursor-pointer transition-colors duration-300">
+                <div className="w-[100px] h-[100px] my-[30px]">
+                  <img src="/home/component/search.png"alt="flow" />
+                </div>
+                <div className="flex flex-col w-full items-center">
+                  <span className="font-[600]">Search</span>
+                  <span className="text-[12px] font-[400] text-center">Temukan informasi akurat dan relevan dengan bantuan AI yang paham konteks dan kebutuhanmu.</span>
+                </div>
               </div>
-
-              <div>
-                <Image
-                  className="rounded-[30px]"
-                  aria-hidden
-                  src="/home/component/elon.jpg"
-                  alt="Elon Musk"
-                  width={250}
-                  height={250}
-                />
+              <div className="flex flex-col items-center p-[20px] w-[300px] h-[300px] rounded-3xl bg-white shadow-2xl text-black hover:bg-[#242424] hover:text-white cursor-pointer transition-colors duration-300">
+                <div className="w-[100px] h-[100px] my-[30px]">
+                  <img src="/home/component/demo.png"alt="flow" />
+                </div>
+                <div className="flex flex-col w-full items-center">
+                  <span className="font-[600]">Try</span>
+                  <span className="text-[12px] font-[400] text-center">Eksplorasi fitur dan simulasi langsung.</span>
+                </div>
+              </div>
+              <div className="flex flex-col items-center p-[20px] w-[300px] h-[300px] rounded-3xl bg-white shadow-2xl text-black hover:bg-[#242424] hover:text-white cursor-pointer transition-colors duration-300">
+                <div className="w-[100px] h-[100px] my-[30px]">
+                  <img src="/home/component/flow.png"alt="flow" />
+                </div>
+                <div className="flex flex-col w-full items-center">
+                  <span className="font-[600]">Learn</span>
+                  <span className="text-[12px] font-[400] text-center">Pelajari topik rumit dengan panduan interaktif, insight dari AI, dan pembelajaran adaptif.</span>
+                </div>
               </div>
             </div>
           </div>

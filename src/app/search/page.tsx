@@ -22,6 +22,7 @@ const Search = () => {
   // Reset halaman ke 1 ketika filter berubah
   useEffect(() => {
     setPage(1);
+    console.log(data)
   }, [inputSearch, selectedCategory]);
   
   useEffect(() => {
@@ -36,6 +37,7 @@ const Search = () => {
     nama: string;
     quote: string;
     kategori: string;
+    image: string;
   }
   
   // Dapatkan kategori unik dari data
@@ -57,16 +59,16 @@ const Search = () => {
                 minHeight: "100vh",
         }}>
           <Navbar page={false} auth={false}/>
-          <div className="flex flex-col h-full pt-[80px] w-full px-[100px]">
-            <div className='flex flex-row gap-[20px] w-full justify-center mt-[40px]'>
-              <div className='bg-white shadow-md rounded-2xl w-full max-w-[700px] h-[50px] px-[20px] flex'>
+          <div className="flex flex-col h-full pt-[80px] w-full px-[100px] max-[1200px]:px-[30px]">
+            <div className='flex flex-row max-[1200px]:flex-col gap-[20px] w-full justify-center mt-[40px]'>
+              <div className='bg-white shadow-md rounded-2xl max-[1200px]:w-full w-[700px] h-[50px] px-[20px] flex'>
                 <input type="text" className='w-full focus:outline-none' placeholder='Search'
                 value={inputSearch}
                 onChange={(e) => {
                   setInputSearch(e.target.value);
                 }}/>
               </div>
-              <div className='bg-white shadow-md rounded-2xl w-[300px] h-[50px] flex px-[20px]'>
+              <div className='bg-white shadow-md rounded-2xl w-[300px] max-[1200px]:w-full h-[50px] flex px-[20px]'>
                 <InputDropdown 
                   options={getUniqueCategories()}
                   selectedValue={selectedCategory}
@@ -74,12 +76,20 @@ const Search = () => {
                 />
               </div>
             </div>
-            <div className='flex flex-col w-full h-[90vh] justify-between'>
+            <div className='flex flex-col w-full h-[90vh] max-[1200px]:h-fit justify-between'>
               <div className='flex flex-row gap-[20px] w-full max-w-[1200px] mx-auto justify-center flex-wrap'>
                 {pagination[page - 1] &&
                   pagination[page - 1].map((item, index) => (
                     <div key={index} className='bg-white shadow-md rounded-2xl h-[220px] flex w-[300px] flex-col items-center mt-[40px] cursor-pointer' onClick={() => window.location.href = `/detail/${item?.id}`}>
-                      <div className='rounded-t-2xl bg-gray-300 w-[300px] h-[130px]'></div>
+                     <div
+                          className='rounded-t-2xl w-[300px] h-[130px]'
+                          style={{
+                            backgroundImage: `url("${item.image}")`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                          }}
+                        ></div>
                       <div className='h-auto w-full py-[10px] px-[20px]'>
                         <div className='flex justify-between gap-[20px]'>
                           <span className='font-[500] not-hover:truncate hover:underline decoration-1 underline-offset-[2px]'>{item?.nama}</span>
