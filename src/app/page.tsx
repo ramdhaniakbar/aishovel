@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <>
       <div>
-        <Navbar page={true} auth={false} />
+        <Navbar page={true} />
         <main
           className="flex flex-col row-start-2 items-center sm:items-start scroll-smooth"
           style={{

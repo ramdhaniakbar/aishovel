@@ -35,7 +35,7 @@ useEffect(() => {
 
   return (
     <>
-      <Navbar page={false} auth={false} />
+      <Navbar page={false} />
       <div className={`flex mt-[80px]`}>
         <div
           className="w-3/4 bg-[#d9d9d9] overflow-auto custom-scrollbar"

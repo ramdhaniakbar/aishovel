@@ -5,12 +5,15 @@ import {getNews} from './backend'
 const HomeNews = ({params} : {params:string}) => {
     const [data, setData] = React.useState<Property[] | null>(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndexCourse, setActiveIndexCourse] = useState(0);
+    
     interface Property {
     judul: string;
     konten: string;
     link:string;
     gambar: string;
   }
+  
   useEffect(() => {
     getNews().then((value : Property[] | null) => {
       if (value) {
@@ -19,6 +22,17 @@ const HomeNews = ({params} : {params:string}) => {
       
     });
   }, [])
+
+  const handleNext = () => {
+    if (!data){return}
+        setActiveIndexCourse((prev) => (prev + 1) % data?.length);
+    };
+    
+  const handlePrev = () => {
+    if (!data){return}
+        setActiveIndexCourse((prev) => (prev - 1 + data?.length) % data?.length);
+    };
+    
   if (params === 'home') {
     return (
         <div className="flex w-full justify-between mt-[100px] max-[950px]:mt-[50px] gap-[30px] max-[1000px]:flex-col">
@@ -96,15 +110,6 @@ const HomeNews = ({params} : {params:string}) => {
     )
   }
   else if (params === "course"){
-    const [activeIndexCourse, setActiveIndexCourse] = useState(0);
-    const handleNext = () => {
-    if (!data){return}
-        setActiveIndexCourse((prev) => (prev + 1) % data?.length);
-    };
-    const handlePrev = () => {
-    if (!data){return}
-        setActiveIndexCourse((prev) => (prev - 1 + data?.length) % data?.length);
-    };
     return (
         <div className="w-full">
             <div className='flex'>

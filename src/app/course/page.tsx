@@ -49,7 +49,7 @@ const Page = () => {
             backgroundAttachment: "fixed",
             minHeight: "100vh",
           }}>
-        <Navbar page={false} auth={false} />
+        <Navbar page={false} />
         <div className="w-full h-[250px] bg-white rounded-b-3xl shadow-xl flex justify-center">
           <div className="w-[400px] h-full flex flex-col px-[60px] py-[70px]">
             <span className="">Selamat datang kembali,</span>

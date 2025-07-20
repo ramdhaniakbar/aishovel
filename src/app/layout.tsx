@@ -1,12 +1,14 @@
 import "./globals.css";
+import { ClientAuthProvider } from '@/components/providers/AuthProvider'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/Logo.png" type="image/svg+xml" />
-      </head>
-      <body>{children}</body>
+      <body>
+        <ClientAuthProvider>
+          {children}
+        </ClientAuthProvider>
+      </body>
     </html>
   );
 }

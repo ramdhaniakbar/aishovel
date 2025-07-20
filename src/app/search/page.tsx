@@ -58,10 +58,10 @@ const Search = () => {
                 backgroundAttachment: "fixed",
                 minHeight: "100vh",
         }}>
-          <Navbar page={false} auth={false}/>
-          <div className="flex flex-col h-full pt-[80px] w-full px-[100px] max-[1200px]:px-[30px]">
-            <div className='flex flex-row max-[1200px]:flex-col gap-[20px] w-full justify-center mt-[40px]'>
-              <div className='bg-white shadow-md rounded-2xl max-[1200px]:w-full w-[700px] h-[50px] px-[20px] flex'>
+          <Navbar page={false}/>
+          <div className="flex flex-col h-full pt-[80px] w-full px-[100px]">
+            <div className='flex flex-row gap-[20px] w-full justify-center mt-[40px]'>
+              <div className='bg-white shadow-md rounded-2xl w-full max-w-[700px] h-[50px] px-[20px] flex'>
                 <input type="text" className='w-full focus:outline-none' placeholder='Search'
                 value={inputSearch}
                 onChange={(e) => {

@@ -1,13 +1,22 @@
 'use client'
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import ClientOnly from '@/components/ClientOnly';
 
-const Navbar = ({page, auth}: {page: boolean, auth: boolean}) => {
+const Navbar = ({page}: {page: boolean}) => {
+  const { user, loading, signOut } = useAuth();
   const [showNavbar, setShowNavbar] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [Responsive, setResponsive] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut()
+    router.push('/')
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       const navHeight = navRef.current?.offsetHeight || 80;
@@ -19,7 +28,7 @@ const Navbar = ({page, auth}: {page: boolean, auth: boolean}) => {
         setShowNavbar(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    
     const checkWidth = () => {
       const width = window.innerWidth;
       if (width <= 680) {
@@ -32,14 +41,15 @@ const Navbar = ({page, auth}: {page: boolean, auth: boolean}) => {
     // Panggil sekali pas pertama mount
     checkWidth();
 
-    // Panggil setiap kali window di-resize
+    // Event listeners
+    window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', checkWidth);
 
     // Cleanup saat komponen di-unmount
     return () => {
-    window.removeEventListener('resize', checkWidth);
-    window.removeEventListener('scroll', handleScroll);
-  };
+      window.removeEventListener('resize', checkWidth);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
   if(Responsive) {
     return (
@@ -143,7 +153,7 @@ const Navbar = ({page, auth}: {page: boolean, auth: boolean}) => {
           </div>
           
         </div>
-        <Tab  isOpen={isOpen} auth={auth}/>
+        <Tab isOpen={isOpen} user={user} loading={loading} onLogout={handleLogout}/>
     </>
     )
   }
@@ -160,16 +170,27 @@ const Navbar = ({page, auth}: {page: boolean, auth: boolean}) => {
                 <span className='cursor-pointer'onClick={()=>router.push('/search')}>Cari</span>
                 <span className='cursor-pointer'onClick={()=>router.push('/course')}>Kursus</span>
               </div>
-              {auth ?
-               <div className={`w-[180px] flex justify-center`}>
-                <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-[#65549e] flex justify-center items-center' onClick={()=>router.push('/auth')}>Dashboard</div>
-              </div>
-              :
-              <div className={`w-[180px] flex justify-between`}>
-                <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center' onClick={()=>router.push('/auth')}>Masuk</div>
-                <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-[#65549e] flex justify-center items-center' onClick={()=>router.push('/auth')}>Daftar</div>
-              </div>
-              }
+              <ClientOnly fallback={
+                <div className={`w-[180px] flex justify-center`}>
+                  <div className='text-white'>Loading...</div>
+                </div>
+              }>
+                {loading ? (
+                  <div className={`w-[180px] flex justify-center`}>
+                    <div className='text-white'>Loading...</div>
+                  </div>
+                ) : user ? (
+                  <div className={`w-[200px] flex justify-between items-center gap-[10px]`}>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] bg-[#71C0BB] flex justify-center items-center text-white text-sm' onClick={()=>router.push('/profile')}>Profile</div>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] bg-red-600 flex justify-center items-center text-white text-sm' onClick={handleLogout}>Logout</div>
+                  </div>
+                ) : (
+                  <div className={`w-[180px] flex justify-between`}>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center' onClick={()=>router.push('/auth')}>Masuk</div>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-[#65549e] flex justify-center items-center' onClick={()=>router.push('/auth')}>Daftar</div>
+                  </div>
+                )}
+              </ClientOnly>
           </div>
         </div>
         <div className={`flex top-0 w-full h-[80px] fixed  transition-opacity duration-300`}>
@@ -180,17 +201,27 @@ const Navbar = ({page, auth}: {page: boolean, auth: boolean}) => {
               <span className='cursor-pointer 'onClick={()=>router.push('/search')}>Cari</span>
               <span className='cursor-pointer 'onClick={()=>router.push('/course')}>Kursus</span>
             </div>
-            {auth ?
+            <ClientOnly fallback={
               <div className={`w-[180px] flex justify-center`}>
-                <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-[#65549e] flex justify-center items-center' onClick={()=>router.push('/auth')}>Dashboard</div>
+                <div className='text-black'>Loading...</div>
               </div>
-            :
-              <div className={`w-[180px] flex justify-between`}>
-                <div className='shadow-2xl cursor-pointer rounded-xl font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center' onClick={()=>router.push('/auth')}>Masuk</div>
-                <div className='shadow-2xl cursor-pointer rounded-xl font-[500] px-[15px] bg-[#65549e] flex justify-center items-center text-white' onClick={()=>router.push('/auth')}>Daftar</div>
-              </div>
-              
-            }
+            }>
+              {loading ? (
+                <div className={`w-[180px] flex justify-center`}>
+                  <div className='text-black'>Loading...</div>
+                </div>
+              ) : user ? (
+                <div className={`w-[200px] flex justify-between items-center gap-[10px]`}>
+                  <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] bg-[#71C0BB] flex justify-center items-center text-white text-sm' onClick={()=>router.push('/profile')}>Profile</div>
+                  <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] bg-red-600 flex justify-center items-center text-white text-sm' onClick={handleLogout}>Logout</div>
+                </div>
+              ) : (
+                <div className={`w-[180px] flex justify-between`}>
+                  <div className='shadow-2xl cursor-pointer rounded-xl font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center' onClick={()=>router.push('/auth')}>Masuk</div>
+                  <div className='shadow-2xl cursor-pointer rounded-xl font-[500] px-[15px] bg-[#65549e] flex justify-center items-center text-white' onClick={()=>router.push('/auth')}>Daftar</div>
+                </div>
+              )}
+            </ClientOnly>
             
           </div>
         </div>
@@ -200,7 +231,7 @@ const Navbar = ({page, auth}: {page: boolean, auth: boolean}) => {
   }
 
 
-const Tab = ({isOpen, auth}:{isOpen: boolean, auth: boolean})=> {
+const Tab = ({isOpen, user, loading, onLogout}:{isOpen: boolean, user: any, loading: boolean, onLogout: () => void})=> {
   return(
     <>
     <div className='h-full w-[300px] bg-[#1d1d1d] fixed right-0 z-50 
@@ -211,15 +242,22 @@ const Tab = ({isOpen, auth}:{isOpen: boolean, auth: boolean})=> {
         <span className='cursor-pointer p-[20px]'onClick={()=>window.location.href = `/search`}>Cari</span>
         <span className='cursor-pointer p-[20px]'onClick={() => window.location.href = `/course`}>Kursus</span>
       </div>
-      {auth ?
-        <div className={`w-full flex flex-col justify-center`}>
-        <div className='cursor-pointer font-[500] px-[15px] bg-[#65549e] flex justify-center items-center p-[20px]' onClick={()=> window.location.href = `/auth`}>Dashboard</div>
-      </div>
-      :
-      <div className={`w-full flex flex-col justify-between`}>
-        <div className='cursor-pointer font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center p-[20px]' onClick={()=> window.location.href = `/auth`}>Masuk</div>
-        <div className='cursor-pointer font-[500] px-[15px] bg-[#65549e] flex justify-center items-center p-[20px] text-white' onClick={()=> window.location.href = `/auth`}>Daftar</div>
-      </div>}
+      {loading ? (
+        <div className={`w-full flex flex-col justify-center p-[20px]`}>
+          <div className='text-white text-center'>Loading...</div>
+        </div>
+      ) : user ? (
+        <div className={`w-full flex flex-col justify-center gap-[10px]`}>
+          <div className='text-white text-center p-[10px] text-sm'>{user.email}</div>
+          <div className='cursor-pointer font-[500] px-[15px] bg-[#71C0BB] flex justify-center items-center p-[20px] text-white' onClick={()=> window.location.href = `/profile`}>Profile</div>
+          <div className='cursor-pointer font-[500] px-[15px] bg-red-600 flex justify-center items-center p-[20px] text-white' onClick={onLogout}>Logout</div>
+        </div>
+      ) : (
+        <div className={`w-full flex flex-col justify-between`}>
+          <div className='cursor-pointer font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center p-[20px]' onClick={()=> window.location.href = `/auth`}>Masuk</div>
+          <div className='cursor-pointer font-[500] px-[15px] bg-[#65549e] flex justify-center items-center p-[20px] text-white' onClick={()=> window.location.href = `/auth`}>Daftar</div>
+        </div>
+      )}
     </div>
     </>
   )

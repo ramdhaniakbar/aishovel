@@ -53,8 +53,8 @@ const Detail = () => {
                 backgroundAttachment: "fixed",
                 minHeight: "100vh",
               }}>
-          <Navbar page={false} auth={false}/>
-          <div className='max-[1000px]:px-[40px] px-[100px] pt-[100px] w-full flex flex-col items-center'>
+          <Navbar page={false}/>
+          <div className='px-[100px] pt-[100px] w-full flex flex-col items-center'>
                 <span className='font-[700] text-[30px]'>{data?.nama}</span>
                 <p className='font-[300] text-center'>{data?.quote}</p>
           </div>
