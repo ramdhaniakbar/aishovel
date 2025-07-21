@@ -3,16 +3,16 @@ import Image from 'next/image';
 
 const faqs = [
   {
-    question: 'Apakah AI berbahaya?',
-    answer: 'AI bisa berbahaya jika disalahgunakan, tapi dengan regulasi dan etika yang tepat, AI sangat bermanfaat.',
+    question: 'Apakah sistem mendukung autentikasi realtime?',
+    answer: 'Ya, platform ini terintegrasi penuh dengan Supabase yang memungkinkan proses login dan registrasi berlangsung secara realtime dengan keamanan tingkat enterprise.',
   },
   {
-    question: 'Apakah AI bisa menggantikan manusia?',
-    answer: 'AI bisa menggantikan beberapa pekerjaan, tapi tidak bisa menggantikan kreativitas, empati, dan intuisi manusia.',
+    question: 'Bagaimana prosedur pendaftaran akun?',
+    answer: 'Pengguna dapat mengakses formulir pendaftaran melalui tombol "Daftar" di navigation bar. Setelah berhasil mendaftar, Anda dapat langsung menggunakan kredensial (email dan password) untuk mengakses platform. Untuk keperluan demo, mohon gunakan data dummy dan hindari penggunaan informasi pribadi yang sensitif. PENTING! silahkan konfirmasi melalui email anda. Terima kasih.',
   },
   {
-    question: 'Apakah data saya aman dengan AI?',
-    answer: 'Keamanan data tergantung dari siapa yang mengelola dan bagaimana AI itu dibangun serta digunakan.',
+    question: 'Apakah platform ini hanya dapat diakses melalui desktop?',
+    answer: 'Tidak, platform ini telah dioptimalkan dengan desain responsif yang memastikan pengalaman pengguna yang konsisten di berbagai perangkat, baik desktop, tablet, maupun mobile.',
   },
 ];
 

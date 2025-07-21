@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '@/app/navbar/navbar';
 import { useParams } from 'next/navigation';
 import { fetchPlaylistData } from '../backend';
@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 
 const Page = () => {
-  const [contentHeight, setContentHeight] = useState(0);
+  const [contentHeight, setContentHeight] = useState('');
   const [contentActive, setContentActive] = useState(0);
   const [content, setContent] = useState<VideoMeta[]>([]);
   type VideoMeta = {
@@ -18,18 +18,21 @@ const Page = () => {
   const params = useParams()
   const slug = params.slug as string;
   const { user, loading } = useAuth();
-    useEffect(() => {
-      if (!user && !loading) {
-        window.location.href = `/auth`;
-      }
+  useEffect(() => {
+    if (!user && !loading) {
+      window.location.href = `/auth`;
+    }
     const allowedSlugs = ["1", "2", "3", "4"];
     if (!allowedSlugs.includes(slug)) {
       window.location.href = "/course";
     }
-    alert("Konten video yang ditampilkan dalam aplikasi ini hanya digunakan sebagai bagian dari prototype atau demo pengujian. Tidak ada unsur komersialisasi maupun klaim hak cipta atas materi yang digunakan. Seluruh hak cipta tetap dimiliki oleh pemilik aslinya. Jika terdapat kekeliruan, kami terbuka untuk koreksi atau penghapusan sesuai kebijakan yang berlaku.");
     const updateHeight = () => {
+      if (window.innerWidth < 1200) {
+        console.log("small screen");
+        return;
+      }
       const availableHeight = window.innerHeight - 80;
-      setContentHeight(availableHeight);
+      setContentHeight(String(availableHeight)+'px');
     };
     fetchPlaylistData('https://www.youtube.com/playlist?list=PL9ooVrP1hQOGHNaCT7_fwe9AabjZI1RjI',Number(slug)).then((data) => {setContent(data)
     });
@@ -42,17 +45,17 @@ const Page = () => {
   return (
     <>
       <Navbar page={false} />
-      <div className={`flex mt-[80px]`}>
+      <div className={`flex max-[1200px]:flex-col mt-[80px]`}>
         <div
-          className="w-3/4 bg-[#d9d9d9] overflow-auto custom-scrollbar"
+          className="w-3/4 max-[1200px]:w-full bg-[#d9d9d9] min-[1200px]:overflow-auto custom-scrollbar"
           style={{ height: contentHeight }}
         >
-          <div className="h-[500px] bg-black w-full  flex justify-center">
+          <div className="h-[500px] max-[800px]:h-[300px] bg-black w-full  flex justify-center">
             <iframe src={`https://www.youtube.com/embed/${content[contentActive]?.id}`} className='w-[800px] h-full'></iframe>
           </div>
           <div className="bg-white w-full min-h-[300px] p-[40px]">
             <span className='font-[600] text-[20px]'>{content[contentActive]?.title}</span>
-            <p>{
+            <p> {
               (() => {
                   const text = content?.[contentActive]?.description || '';
                   const sentences = text.split('.');
@@ -88,11 +91,12 @@ const Page = () => {
 
                   return result;
               })()
-              }</p>
+              }
+              </p>
           </div>
         </div>
         <div
-          className="w-1/4 overflow-y-auto custom-scrollbar"
+          className="w-1/4 max-[1200px]:w-full overflow-y-auto custom-scrollbar border-t-4 border-[#242424]"
           style={{ height: contentHeight }}
         >
           {content.map((item, index) => (

@@ -166,13 +166,13 @@ const Navbar = ({page}: {page: boolean}) => {
                 <span className='cursor-pointer'onClick={user ? () => window.location.href = `/course` : () => window.location.href = `/pricing`}>Kursus</span>
               </div>
               <ClientOnly fallback={
-                <div className={`w-[180px] flex justify-center`}>
-                  <div className='text-white'>Loading...</div>
+                <div className={`w-[200px] flex justify-end items-center gap-[10px]`}>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] flex justify-center items-center text-white text-sm'>Loading...</div>
                 </div>
               }>
                 {loading ? (
-                  <div className={`w-[180px] flex justify-center`}>
-                    <div className='text-white'>Loading...</div>
+                  <div className={`w-[200px] flex justify-end items-center gap-[10px]`}>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] flex justify-center items-center text-white text-sm'>Loading...</div>
                   </div>
                 ) : user ? (
                   <div className={`w-[200px] flex justify-end items-center gap-[10px]`}>
@@ -196,17 +196,17 @@ const Navbar = ({page}: {page: boolean}) => {
               <span className='cursor-pointer 'onClick={user ? () => window.location.href = `/course` : () => window.location.href = `/pricing`}>Kursus</span>
             </div>
             <ClientOnly fallback={
-              <div className={`w-[180px] flex justify-center`}>
-                <div className='text-black'>Loading...</div>
+              <div className={`w-[200px] flex justify-end items-center gap-[10px]`}>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] flex justify-center items-center text-white text-sm'>Loading...</div>
               </div>
             }>
               {loading ? (
-                <div className={`w-[180px] flex justify-center`}>
-                  <div className='text-black'>Loading...</div>
-                </div>
+                <div className={`w-[200px] flex justify-end items-center gap-[10px]`}>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] flex justify-center items-center text-white text-sm'>Loading...</div>
+                  </div>
               ) : user ? (
                 <div className={`w-[200px] flex justify-end  items-center gap-[10px]`}>
-                  <div className='cursor-pointer rounded-full font-[500] px-[20px] py-[15px] bg-[#71C0BB] flex justify-center items-center text-white text-sm' onClick={()=>router.push('/profile')}>Profile</div>
+                  <div className='cursor-pointer rounded-full font-[500] px-[20px] py-[15px] bg-white flex justify-center items-center text-vblack text-sm' onClick={()=>router.push('/profile')}>Profile</div>
                 </div>
               ) : (
                 <div className={`w-[180px] flex justify-between`}>

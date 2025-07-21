@@ -308,9 +308,9 @@ const ProfilePage = () => {
               </div>
             </div>
             <div
-              className="flex justify-center w-[50%] h-full rounded-r-3xl max-[1200px]:hidden"
+              className="flex justify-center w-[50%]  rounded-r-3xl max-[1200px]:hidden"
               style={{
-                backgroundImage: "url('/detail/component/authd.png')",
+                backgroundImage: "url('/detail/component/auth.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",

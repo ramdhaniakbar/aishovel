@@ -17,12 +17,21 @@ const Page = () => {
       deskripsi: Dekripsi;
       section: string;
     }
+    const [name, setName] = useState('');
     const [konten, setKonten] = useState<Program[] | null>(null);
     const { user, loading } = useAuth();
     useEffect(() => {
       if (!user && !loading) {
         window.location.href = `/auth`;
       }
+      const userName = async (): Promise<string>  => {
+        const {data: { user }} = await supabase.auth.getUser()
+        const name : string = user ? user.user_metadata.displayName || 'Anonymous' : 'Anonymous'
+        return name
+      }
+      userName().then((value : string) => {
+        setName(value)
+      })
       const fetchkonten = async () : Promise<Program[] | null>  => {
         const { data, error } = await supabase
           .from('programs')
@@ -43,6 +52,7 @@ const Page = () => {
       const { data } = supabase.storage.from('images').getPublicUrl('template/'+path);
       return data.publicUrl;
     };
+   
   return (
     <>
     <main
@@ -58,7 +68,7 @@ const Page = () => {
         <div className="w-full h-[250px] bg-white rounded-b-3xl shadow-xl flex justify-center">
           <div className="w-[400px] h-full flex flex-col px-[60px] py-[70px]">
             <span className="">Selamat datang kembali,</span>
-            <span className="text-[40px] font-[600] h-[55px]">Anonymous</span>
+            <span className="text-[40px] font-[600] h-[55px]">{name}</span>
             <span className="">Apa rencanamu hari ini?</span>
           </div>
           <div className="w-[800px] h-full flex flex-col px-[60px] py-[20px] gap-[10px] max-[1200px]:hidden">
