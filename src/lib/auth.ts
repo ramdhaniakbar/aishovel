@@ -18,7 +18,7 @@ export async function testDatabaseConnection() {
     console.log('Test 2: Simple insert test...')
     const testUser = {
       email: `test-${Date.now()}@example.com`,
-      phone: `+628${Date.now().toString().slice(-8)}`
+      displayName: `Test User ${Date.now().toString().slice(-8)}`
     }
     
     const { data: insertData, error: insertError } = await supabase
@@ -78,7 +78,7 @@ export async function manualSyncUserProfile() {
     // Create profile manually
     const userData = {
       email: user.email,
-      phone: user.user_metadata?.phone || ''
+      displayName: user.user_metadata?.displayName || ''
     }
     
     const { data: newProfile, error: insertError } = await supabase
@@ -125,14 +125,14 @@ export async function ensureUserTable() {
 export interface AuthUser {
   id: string
   email: string
-  phone?: string
+  displayName?: string
   created_at: string
 }
 
 export interface UserProfile {
   id: number  // int8 in database
   email: string
-  phone: string
+  displayName: string
   created_at: string
 }
 
@@ -164,17 +164,17 @@ export async function signIn(email: string, password: string) {
 }
 
 // Register user baru
-export async function signUp(email: string, password: string, phone?: string) {
+export async function signUp(email: string, password: string, displayName?: string) {
   try {
-    console.log('signUp called with email:', email, 'phone:', phone)
+    console.log('signUp called with email:', email, 'displayName:', displayName)
     
-    // Create auth user with phone in metadata - trigger will handle user table
+    // Create auth user with displayName in metadata - trigger will handle user table
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
-          phone: phone || ''
+          displayName: displayName || ''
         }
       }
     })

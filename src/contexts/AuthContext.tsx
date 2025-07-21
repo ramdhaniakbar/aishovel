@@ -145,7 +145,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                         // Create user profile if it doesn't exist
                         const userData = {
                           email: session.user.email,
-                          phone: session.user.user_metadata?.phone || '',
+                          displayName: session.user.user_metadata?.displayName || '',
                         }
                         
                         const { data: newUser, error } = await supabase

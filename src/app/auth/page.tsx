@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 const Page = () => {
   const [auth, setAuth] = useState(false)
   const [formData, setFormData] = useState({
-    phone: '',
+    displayName: '',
     email: '',
     password: '',
     cpassword: ''
@@ -39,8 +39,8 @@ const Page = () => {
 
     if (!auth) {
       // Register validation
-      if (!formData.phone) {
-        setError('Phone harus diisi')
+      if (!formData.displayName) {
+        setError('Display Name harus diisi')
         setIsLoading(false)
         return
       }
@@ -71,7 +71,7 @@ const Page = () => {
       } else {
         // Register
         console.log('Attempting registration...')
-        const result = await signUp(formData.email, formData.password, formData.phone)
+        const result = await signUp(formData.email, formData.password, formData.displayName)
         console.log('Registration result:', result)
         if (result.error) {
           setError(result.error.message)
@@ -79,7 +79,7 @@ const Page = () => {
           setError('')
           // Reset form after successful registration
           setFormData({
-            phone: '',
+            displayName: '',
             email: '',
             password: '',
             cpassword: ''
@@ -156,12 +156,12 @@ const Page = () => {
                             :
                             <div className='flex flex-col gap-[30px] px-[20px] max-[480px]:px-[60px]'>
                                 <input 
-                                  name='phone' 
-                                  type="tel" 
-                                  placeholder='Phone' 
+                                  name='displayName' 
+                                  type="text" 
+                                  placeholder='Display Name' 
                                   className='focus:outline-none border-[#2424] border-b'
-                                  value={formData.phone}
-                                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                                  value={formData.displayName}
+                                  onChange={(e) => setFormData({...formData, displayName: e.target.value})}
                                 />
                                 <input 
                                   name='email' 
