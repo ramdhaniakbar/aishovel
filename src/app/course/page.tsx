@@ -4,6 +4,7 @@ import HomeNews from "../component/home-news"
 import FooterCompo from "../component/footer-compo"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
+import { useAuth } from '@/contexts/AuthContext';
 
 const Page = () => {
   interface Dekripsi {
@@ -17,7 +18,11 @@ const Page = () => {
       section: string;
     }
     const [konten, setKonten] = useState<Program[] | null>(null);
+    const { user, loading } = useAuth();
     useEffect(() => {
+      if (!user && !loading) {
+        window.location.href = `/auth`;
+      }
       const fetchkonten = async () : Promise<Program[] | null>  => {
         const { data, error } = await supabase
           .from('programs')
@@ -33,7 +38,7 @@ const Page = () => {
         }
       })
       
-    }, [])
+    }, [loading])
     const getImageUrl =  (path: string) => {
       const { data } = supabase.storage.from('images').getPublicUrl('template/'+path);
       return data.publicUrl;

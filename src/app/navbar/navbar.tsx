@@ -5,17 +5,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import ClientOnly from '@/components/ClientOnly';
 
 const Navbar = ({page}: {page: boolean}) => {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading} = useAuth();
   const [showNavbar, setShowNavbar] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [Responsive, setResponsive] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
-  const handleLogout = async () => {
-    await signOut()
-    router.push('/')
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -153,7 +148,7 @@ const Navbar = ({page}: {page: boolean}) => {
           </div>
           
         </div>
-        <Tab isOpen={isOpen} user={user} loading={loading} onLogout={handleLogout}/>
+        <Tab isOpen={isOpen} user={user} loading={loading}/>
     </>
     )
   }
@@ -168,7 +163,7 @@ const Navbar = ({page}: {page: boolean}) => {
               <div className='w-[180px] text-center justify-center items-center flex gap-[20px]'>
                 <span className='cursor-pointer' onClick={()=>router.push('/')}>Home</span> 
                 <span className='cursor-pointer'onClick={()=>router.push('/search')}>Cari</span>
-                <span className='cursor-pointer'onClick={()=>router.push('/course')}>Kursus</span>
+                <span className='cursor-pointer'onClick={user ? () => window.location.href = `/course` : () => window.location.href = `/pricing`}>Kursus</span>
               </div>
               <ClientOnly fallback={
                 <div className={`w-[180px] flex justify-center`}>
@@ -180,13 +175,12 @@ const Navbar = ({page}: {page: boolean}) => {
                     <div className='text-white'>Loading...</div>
                   </div>
                 ) : user ? (
-                  <div className={`w-[200px] flex justify-between items-center gap-[10px]`}>
-                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] bg-[#71C0BB] flex justify-center items-center text-white text-sm' onClick={()=>router.push('/profile')}>Profile</div>
-                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] bg-red-600 flex justify-center items-center text-white text-sm' onClick={handleLogout}>Logout</div>
+                  <div className={`w-[200px] flex justify-end items-center gap-[10px]`}>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] flex justify-center items-center text-white text-sm' onClick={()=>router.push('/profile')}>Profile</div>
                   </div>
                 ) : (
                   <div className={`w-[180px] flex justify-between`}>
-                    <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center' onClick={()=>router.push('/auth')}>Masuk</div>
+                    <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center' onClick={()=>router.push('/auth?param=true')}>Masuk</div>
                     <div className='cursor-pointer rounded-xl font-[500] px-[15px] bg-[#65549e] flex justify-center items-center' onClick={()=>router.push('/auth')}>Daftar</div>
                   </div>
                 )}
@@ -199,7 +193,7 @@ const Navbar = ({page}: {page: boolean}) => {
             <div className='w-[180px] text-center justify-center items-center flex gap-[20px]'>
               <span className='cursor-pointer ' onClick={()=>router.push('/')}>Home</span> 
               <span className='cursor-pointer 'onClick={()=>router.push('/search')}>Cari</span>
-              <span className='cursor-pointer 'onClick={()=>router.push('/course')}>Kursus</span>
+              <span className='cursor-pointer 'onClick={user ? () => window.location.href = `/course` : () => window.location.href = `/pricing`}>Kursus</span>
             </div>
             <ClientOnly fallback={
               <div className={`w-[180px] flex justify-center`}>
@@ -211,13 +205,12 @@ const Navbar = ({page}: {page: boolean}) => {
                   <div className='text-black'>Loading...</div>
                 </div>
               ) : user ? (
-                <div className={`w-[200px] flex justify-between items-center gap-[10px]`}>
-                  <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] bg-[#71C0BB] flex justify-center items-center text-white text-sm' onClick={()=>router.push('/profile')}>Profile</div>
-                  <div className='cursor-pointer rounded-xl font-[500] px-[10px] py-[5px] bg-red-600 flex justify-center items-center text-white text-sm' onClick={handleLogout}>Logout</div>
+                <div className={`w-[200px] flex justify-end  items-center gap-[10px]`}>
+                  <div className='cursor-pointer rounded-full font-[500] px-[20px] py-[15px] bg-[#71C0BB] flex justify-center items-center text-white text-sm' onClick={()=>router.push('/profile')}>Profile</div>
                 </div>
               ) : (
                 <div className={`w-[180px] flex justify-between`}>
-                  <div className='shadow-2xl cursor-pointer rounded-xl font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center' onClick={()=>router.push('/auth')}>Masuk</div>
+                  <div className='shadow-2xl cursor-pointer rounded-xl font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center' onClick={()=>router.push('/auth?param=true')}>Masuk</div>
                   <div className='shadow-2xl cursor-pointer rounded-xl font-[500] px-[15px] bg-[#65549e] flex justify-center items-center text-white' onClick={()=>router.push('/auth')}>Daftar</div>
                 </div>
               )}
@@ -231,7 +224,7 @@ const Navbar = ({page}: {page: boolean}) => {
   }
 
 
-const Tab = ({isOpen, user, loading, onLogout}:{isOpen: boolean, user: any, loading: boolean, onLogout: () => void})=> {
+const Tab = ({isOpen, user, loading}:{isOpen: boolean, user: any, loading: boolean})=> {
   return(
     <>
     <div className='h-full w-[300px] bg-[#1d1d1d] fixed right-0 z-50 
@@ -240,7 +233,7 @@ const Tab = ({isOpen, user, loading, onLogout}:{isOpen: boolean, user: any, load
     <div className='w-full text-center justify-center items-center flex gap-[20px] flex-col text-white mt-[80px]'>
         <span className='cursor-pointer p-[20px]' onClick={() => window.location.href = `/`}>Home</span> 
         <span className='cursor-pointer p-[20px]'onClick={()=>window.location.href = `/search`}>Cari</span>
-        <span className='cursor-pointer p-[20px]'onClick={() => window.location.href = `/course`}>Kursus</span>
+        <span className='cursor-pointer p-[20px]'onClick={user ? () => window.location.href = `/course` : () => window.location.href = `/pricing`}>Kursus</span>
       </div>
       {loading ? (
         <div className={`w-full flex flex-col justify-center p-[20px]`}>
@@ -250,11 +243,10 @@ const Tab = ({isOpen, user, loading, onLogout}:{isOpen: boolean, user: any, load
         <div className={`w-full flex flex-col justify-center gap-[10px]`}>
           <div className='text-white text-center p-[10px] text-sm'>{user.email}</div>
           <div className='cursor-pointer font-[500] px-[15px] bg-[#71C0BB] flex justify-center items-center p-[20px] text-white' onClick={()=> window.location.href = `/profile`}>Profile</div>
-          <div className='cursor-pointer font-[500] px-[15px] bg-red-600 flex justify-center items-center p-[20px] text-white' onClick={onLogout}>Logout</div>
         </div>
       ) : (
         <div className={`w-full flex flex-col justify-between`}>
-          <div className='cursor-pointer font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center p-[20px]' onClick={()=> window.location.href = `/auth`}>Masuk</div>
+          <div className='cursor-pointer font-[500] px-[15px] bg-white text-[#242424] flex justify-center items-center p-[20px]' onClick={()=> window.location.href = `/auth?param=true`}>Masuk</div>
           <div className='cursor-pointer font-[500] px-[15px] bg-[#65549e] flex justify-center items-center p-[20px] text-white' onClick={()=> window.location.href = `/auth`}>Daftar</div>
         </div>
       )}

@@ -2,9 +2,11 @@
 import React, { useState } from 'react'
 import { signIn, signUp, testDatabaseConnection } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 const Page = () => {
-  const [auth, setAuth] = useState(false)
+  const param = useSearchParams().get('param')
+  const [auth, setAuth] = useState(param === 'true'? true : false)
   const [formData, setFormData] = useState({
     displayName: '',
     email: '',

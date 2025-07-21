@@ -100,7 +100,8 @@ const Detail = () => {
                           <div className='flex flex-col gap-[20px] justify-center items-center transition-all duration-500'
                           style={{opacity: activeIndex==i ? 1 : 0}}>
                             <span className='text-white'>{item[0]}</span>
-                            <button className='px-3 py-3 rounded-full cursor-pointer bg-gray-200'>Ayo Coba</button>
+                            <button className='px-3 py-3 rounded-full cursor-pointer bg-gray-200'
+                            onClick={()=>window.location.href = `${item[3]}`}>Ayo Coba</button>
                           </div>
                         </div>
                 </div>

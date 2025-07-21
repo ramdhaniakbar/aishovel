@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import Navbar from '@/app/navbar/navbar';
 import { useParams } from 'next/navigation';
 import { fetchPlaylistData } from '../backend';
+import { useAuth } from '@/contexts/AuthContext';
+
 
 const Page = () => {
   const [contentHeight, setContentHeight] = useState(0);
@@ -14,8 +16,12 @@ const Page = () => {
     description: string;
   };
   const params = useParams()
- const slug = params.slug as string;
-useEffect(() => {
+  const slug = params.slug as string;
+  const { user, loading } = useAuth();
+    useEffect(() => {
+      if (!user && !loading) {
+        window.location.href = `/auth`;
+      }
     const allowedSlugs = ["1", "2", "3", "4"];
     if (!allowedSlugs.includes(slug)) {
       window.location.href = "/course";
@@ -31,7 +37,7 @@ useEffect(() => {
     window.addEventListener('resize', updateHeight);
 
   return () => window.removeEventListener('resize', updateHeight);
-  }, []);
+  }, [loading]);
 
   return (
     <>
