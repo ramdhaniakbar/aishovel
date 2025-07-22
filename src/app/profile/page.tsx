@@ -119,7 +119,6 @@ const ProfilePage = () => {
       })
     }
   }
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -127,7 +126,6 @@ const ProfilePage = () => {
       </div>
     )
   }
-
   if (!user) {
     return (
       <div className="flex justify-center items-center min-h-screen">
