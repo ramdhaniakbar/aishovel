@@ -15,32 +15,58 @@ const Page = () => {
     title: string;
     description: string;
   };
-  const params = useParams()
-  const slug = params.slug as string;
-  const { user, loading } = useAuth();
-  useEffect(() => {
-    if (!user && !loading) {
-      window.location.href = `/auth`;
-    }
-    const allowedSlugs = ["1", "2", "3", "4"];
-    if (!allowedSlugs.includes(slug)) {
-      window.location.href = "/course";
-    }
-    const updateHeight = () => {
-      if (window.innerWidth < 1200) {
-        console.log("small screen");
-        return;
-      }
-      const availableHeight = window.innerHeight - 80;
-      setContentHeight(String(availableHeight)+'px');
-    };
-    fetchPlaylistData('https://www.youtube.com/playlist?list=PL9ooVrP1hQOGHNaCT7_fwe9AabjZI1RjI',Number(slug)).then((data) => {setContent(data)
-    });
-    updateHeight();
-    window.addEventListener('resize', updateHeight);
+  const params = useParams();
+const slug = params.slug as string;
+const { user, loading } = useAuth();
 
+// Memoize values yang tidak berubah
+const allowedSlugs = ["1", "2", "3", "4"];
+
+// Pisah effect untuk auth check
+useEffect(() => {
+  if (!user && !loading) {
+    window.location.href = `/auth`;
+  }
+}, [user, loading]);
+
+// Pisah effect untuk slug validation  
+useEffect(() => {
+  if (!allowedSlugs.includes(slug)) {
+    window.location.href = "/course";
+  }
+}, [slug, allowedSlugs]);
+
+// Pisah effect untuk window resize dan data fetching
+useEffect(() => {
+  const updateHeight = () => {
+    if (window.innerWidth < 1200) {
+      console.log("small screen");
+      return;
+    }
+    const availableHeight = window.innerHeight - 80;
+    setContentHeight(String(availableHeight) + 'px');
+  };
+
+  // Fetch data hanya sekali saat component mount
+  const fetchData = async () => {
+    try {
+      const data = await fetchPlaylistData(
+        'https://www.youtube.com/playlist?list=PL9ooVrP1hQOGHNaCT7_fwe9AabjZI1RjI',
+        Number(slug)
+      );
+      setContent(data);
+      alert("Konten video yang ditampilkan dalam aplikasi ini hanya digunakan sebagai bagian dari prototype atau demo pengujian. Tidak ada unsur komersialisasi maupun klaim hak cipta atas materi yang digunakan. Seluruh hak cipta tetap dimiliki oleh pemilik aslinya. Jika terdapat kekeliruan, kami terbuka untuk koreksi atau penghapusan sesuai kebijakan yang berlaku.");
+    } catch (error) {
+      console.error('Failed to fetch playlist data:', error);
+    }
+  };
+
+  fetchData();
+  updateHeight();
+  
+  window.addEventListener('resize', updateHeight);
   return () => window.removeEventListener('resize', updateHeight);
-  }, [slug, user, loading]);
+}, [slug]);
 
   return (
     <>
