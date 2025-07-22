@@ -43,7 +43,7 @@ const HomeNews = ({params} : {params:string}) => {
                 <img
                 className="rounded-[30px] max-h-[400px] w-full object-cover"
                 aria-hidden
-                src={data?.[activeIndex]?.gambar || '/home/news/news.png'}
+                src={data?.[activeIndex]?.gambar}
                 alt="News"
                 />
                 <div className="mt-[100px] max-[950px]:mt-[50px] bg-[rgba(51,51,51,0.3)] rounded-[20px] p-[40px] max-[950px]:p-[20px] backdrop-blur-[3px] text-white gap-[10px] flex flex-col max-[950px]:max-h-[700px] ">

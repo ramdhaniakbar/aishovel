@@ -111,7 +111,7 @@ const Page = () => {
             backgroundAttachment: "fixed",
             minHeight: "100vh",
           }}>
-            <div className='flex flex-row h-fit max-w-[1200px] w-full mx-auto bg-white rounded-3xl shadow-2xl'>
+            <div className='flex flex-row h-fit min-h-[650px] max-w-[1200px] w-full mx-auto bg-white rounded-3xl shadow-2xl'>
                 <div className='absolute cursor-pointer mt-[20px] ml-[30px] text-[#787878]' onClick={() => window.location.href = '/'}> &lt; Kembali ke home</div>
                 <div className='flex justify-center w-[50%] max-[1200px]:w-[100%] h-full'>
                     <div className='flex flex-col gap-[20px] py-[50px] w-[400px] '>
@@ -198,7 +198,17 @@ const Page = () => {
                             >
                                 {isLoading ? 'Loading...' : (auth ? 'Masuk' : 'Daftar')}
                             </button>
-                            <div className='w-full flex justify-center text-[#a2a2a2] cursor-pointer hover:underline decoration-1 underline-offset-[2px]' onClick={()=>router.push('/?scroll=faq')}><span>Panduan Mendaftar atau Login</span> </div>
+                            <div className='w-full flex justify-center text-[#a2a2a2] flex-col'>
+                              <span className='text-center text-[12px]'>
+                                Meskipun masih dalam tahap prototipe, website ini telah mendukung fitur autentikasi pengguna.
+                              </span> 
+                              <span 
+                                onClick={() => router.push('/?scroll=faq')} 
+                                className='cursor-pointer hover:underline decoration-1 underline-offset-[2px] text-center text-[12px]'
+                              >
+                                Klik di sini untuk melihat panduan pendaftaran dan login.
+                              </span>
+                            </div>
                         </div>
                     </div>
                 </div>
