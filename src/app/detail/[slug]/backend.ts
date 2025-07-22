@@ -12,6 +12,7 @@ async function getDetail(vals: string) {
     .from('ai_property')
     .select()
     .eq('id', vals).single();
+    
 
   if (error) {
     return null;
