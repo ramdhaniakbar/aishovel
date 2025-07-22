@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
 
-export async function middleware(req: NextRequest) {
+export async function middleware() {
   // // Check if user has session by looking for auth cookies
   // const hasSession = req.cookies.has('sb-kwnnztkdeowjohfrxt-auth-token')
   // console.log('hasSession:', hasSession)

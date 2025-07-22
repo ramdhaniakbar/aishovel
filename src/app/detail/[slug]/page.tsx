@@ -34,10 +34,10 @@ const Detail = () => {
         setData(value);
       }
       else {
-        router.push('/');
+        window.location.href = `/profile`;
       }
     });
-  }, [slug])
+  }, [slug, data])
 
   
 

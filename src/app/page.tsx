@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client"
+import { Suspense } from 'react'
 import Image from "next/image"
 import Navbar from "./navbar/navbar"
 import CardAnimation from "./component/home-card-anm"
@@ -9,8 +10,9 @@ import FooterCompo from "./component/footer-compo"
 import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 
-export default function Home() {
+function ScrollHandler() {
   const searchParams = useSearchParams();
+  
   useEffect(() => {
     if (searchParams.get('scroll') === 'tujuan') {
       document.getElementById('tujuan')?.scrollIntoView({ behavior: 'smooth' });
@@ -21,11 +23,18 @@ export default function Home() {
     else if (searchParams.get('scroll') === 'faq') {
       document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
     }
-    
   }, [searchParams]);
+
+  return null; // Komponen ini tidak render apa-apa
+}
+
+export default function Home() {
   return (
     <>
       <div>
+        <Suspense fallback={null}>
+          <ScrollHandler />
+        </Suspense>
         <Navbar page={true} />
         <main
           className="flex flex-col row-start-2 items-center sm:items-start scroll-smooth"

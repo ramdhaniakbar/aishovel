@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useState, useRef } from 'react';
+import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import ClientOnly from '@/components/ClientOnly';
@@ -224,7 +225,7 @@ const Navbar = ({page}: {page: boolean}) => {
   }
 
 
-const Tab = ({isOpen, user, loading}:{isOpen: boolean, user: any, loading: boolean})=> {
+const Tab = ({isOpen, user, loading}:{isOpen: boolean, user: User | null, loading: boolean})=> {
   return(
     <>
     <div className='h-full w-[300px] bg-[#1d1d1d] fixed right-0 z-50 

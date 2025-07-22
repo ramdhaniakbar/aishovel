@@ -1,13 +1,15 @@
 'use client'
-import React, { useState } from 'react'
-import { signIn, signUp, testDatabaseConnection } from '@/lib/auth'
+import React, { useState, Suspense } from 'react'
+import { signIn, signUp} from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 
-const Page = () => {
-  const param = useSearchParams().get('param')
-  const [auth, setAuth] = useState(param === 'true'? true : false)
+// Komponen untuk handle search params
+function AuthFormWithParams() {
+  const searchParams = useSearchParams()
+  const param = searchParams.get('param')
+  const [auth, setAuth] = useState(param === 'true' ? true : false)
   const [formData, setFormData] = useState({
     displayName: '',
     email: '',
@@ -24,7 +26,7 @@ const Page = () => {
         if (user && !loading) {
           window.location.href = `/profile`;
         }
-  }, [loading])
+  }, [user,loading])
 
   const handleSubmit = async () => {
     setError('')
@@ -100,7 +102,6 @@ const Page = () => {
   }
 
   return (
-    <>
     <div>
         <main
           className="flex flex-col row-start-2 items-center sm:items-start py-[50px] px-[100px] max-[700px]:px-[0px]"
@@ -215,7 +216,7 @@ const Page = () => {
                 <div className='flex justify-center w-[50%] rounded-r-3xl max-[1200px]:hidden'
                     style={{
                         backgroundImage: "url('/detail/component/authd.png')",
-                        backgroundSize: "cover", // Gambar akan menutupi seluruh area
+                        backgroundSize: "cover",
                         backgroundPosition: "center",
                         backgroundRepeat: "no-repeat",
                         minHeight: "fit-content",
@@ -224,7 +225,23 @@ const Page = () => {
             </div>
           </main>
     </div>
-    </>
+  )
+}
+
+// Loading component untuk fallback
+function AuthPageLoading() {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#71C0BB]"></div>
+    </div>
+  )
+}
+
+const Page = () => {
+  return (
+    <Suspense fallback={<AuthPageLoading />}>
+      <AuthFormWithParams />
+    </Suspense>
   )
 }
 

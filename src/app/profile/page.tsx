@@ -1,11 +1,12 @@
 'use client'
 import React, { useState, useEffect } from 'react'
+import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 
 const ProfilePage = () => {
-  const [user, setUser] = useState<any>(null)
-  const [profile, setProfile] = useState<any>(null)
+  const [user, setUser] = useState<User|null>(null)
+  const [profile, setProfile] = useState<User|null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
@@ -114,7 +115,7 @@ const ProfilePage = () => {
     // Reset form data
     if (profile) {
       setFormData({
-        email: profile.email,
+        email: profile.email || '',
         displayName: profile.user_metadata?.displayName || ''
       })
     }

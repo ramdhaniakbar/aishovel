@@ -47,7 +47,7 @@ const Page = () => {
         }
       })
       
-    }, [loading])
+    }, [user,loading])
     const getImageUrl =  (path: string) => {
       const { data } = supabase.storage.from('images').getPublicUrl('template/'+path);
       return data.publicUrl;

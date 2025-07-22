@@ -22,7 +22,6 @@ const Search = () => {
   // Reset halaman ke 1 ketika filter berubah
   useEffect(() => {
     setPage(1);
-    console.log(data)
   }, [inputSearch, selectedCategory]);
   
   useEffect(() => {
@@ -30,7 +29,7 @@ const Search = () => {
       if (!value) return;
       setData(value);
     })
-  }, []) // Tambahkan dependency array kosong
+  }, [data]) // Tambahkan dependency array kosong
   
   interface Property {
     id: number;

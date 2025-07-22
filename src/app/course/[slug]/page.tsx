@@ -40,7 +40,7 @@ const Page = () => {
     window.addEventListener('resize', updateHeight);
 
   return () => window.removeEventListener('resize', updateHeight);
-  }, [loading]);
+  }, [slug, user, loading]);
 
   return (
     <>

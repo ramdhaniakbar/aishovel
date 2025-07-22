@@ -16,7 +16,7 @@ async function getDetail(vals: string) {
   if (error) {
     return null;
   }
-  const allImage = data.trials.Image.map((item: any) => [item[0], getImageUrl(item[1]), getImageUrl(item[2]),item[3]]);
+  const allImage = data.trials.Image.map((item: [string, string, string, string]) => [item[0], getImageUrl(item[1]), getImageUrl(item[2]),item[3]]);
   const dataFormed: Property = {
     nama: data.nama,
     definisi: data.definisi,

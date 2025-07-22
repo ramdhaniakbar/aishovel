@@ -186,7 +186,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false)
       }
     }
-  }, [mounted])
+  }, [mounted, profile])
 
   const refreshProfile = async () => {
     if (user && user.email) {

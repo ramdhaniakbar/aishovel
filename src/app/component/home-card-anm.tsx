@@ -3,8 +3,7 @@ import React from 'react'
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const CardAnimation = () => {
-    const classSets = [
+const classSets = [
         ['transform translate-x-[-100px] z-[5]', 'transform translate-x-0 z-[10] scale-120', 'transform translate-x-[100px] z-[5]'],
         ['transform translate-x-0 z-[10] scale-120', 'transform translate-x-[100px] z-[5]', 'transform translate-x-[-100px] z-[5]'],
         ['transform translate-x-[100px] z-[5]', 'transform translate-x-[-100px] z-[5]', 'transform translate-x-0 z-[10] scale-120'],
@@ -15,6 +14,8 @@ const CardAnimation = () => {
         "Pelajari logika cara AI bekerja dan cara sebuah AI memberikan manfaat.",
         "Coba gunakan AI sekarang juga.",
     ];
+
+const CardAnimation = () => {
 
     const [index, setIndex] = useState(0);         // Untuk animasi image
     const [textIndex, setTextIndex] = useState(0); // Untuk teks aktif
@@ -41,13 +42,13 @@ const CardAnimation = () => {
     }, []);
 
     useEffect(() => {
-        if (charIndex < texts[textIndex].length) {
+    if (charIndex < texts[textIndex].length) {
         const typingTimeout = setTimeout(() => {
-            setDisplayedText((prev) => prev + texts[textIndex][charIndex]);
-            setCharIndex((prev) => prev + 1);
+        setDisplayedText((prev) => prev + texts[textIndex][charIndex]);
+        setCharIndex((prev) => prev + 1);
         }, 50);
         return () => clearTimeout(typingTimeout);
-        }
+    }
     }, [charIndex, textIndex]);
 
     return (

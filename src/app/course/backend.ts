@@ -8,6 +8,15 @@ type VideoMeta = {
   title: string;
   description: string;
 };
+interface YouTubePlaylistItem {
+  snippet: {
+    title: string;
+    description: string;
+  };
+  contentDetails: {
+    videoId: string;
+  };
+}
 
 const extractPlaylistId = (url: string): string | null => {
   const match = url.match(/[?&]list=([a-zA-Z0-9_-]+)/);
@@ -36,7 +45,7 @@ export const fetchPlaylistData = async (playlistUrl: string, dataLength: number)
     });
     nextPageToken = res.data.nextPageToken;
         if (currentBatch === targetBatch) {
-          const items = res.data.items.map((item: any): VideoMeta => ({
+          const items = res.data.items.map((item: YouTubePlaylistItem): VideoMeta => ({
             id: item.contentDetails.videoId,
             title: item.snippet.title,
             description: item.snippet.description,

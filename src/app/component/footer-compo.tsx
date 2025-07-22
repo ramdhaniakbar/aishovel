@@ -1,4 +1,4 @@
-import React,{useRef} from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation';
 
 const FooterCompo = () => {
@@ -28,7 +28,7 @@ const FooterCompo = () => {
                     <span className='font-[600]'>Support</span>
                     <ul className='flex flex-col gap-[8px]'>
                         <li className='h-[20px] w-fit text-[12px] hover:border-b-2 cursor-pointer border-white'>Contact</li>
-                        <li className='h-[20px] w-fit text-[12px] hover:border-b-2 cursor-pointer border-white' onClick={()=>router.push('/?scroll=faq')}>FAQ's</li>
+                        <li className='h-[20px] w-fit text-[12px] hover:border-b-2 cursor-pointer border-white' onClick={()=>router.push('/?scroll=faq')}>FAQs</li>
                     </ul>
 
                     </div>
