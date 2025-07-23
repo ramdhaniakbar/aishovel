@@ -32,7 +32,7 @@ const Page = () => {
   }, [])
   return (
     <>
-      <main className='flex justify-center items-center'
+      <main className='flex justify-center items-center h-fit'
         style={{
           backgroundImage: "url('/detail/background/main-background.png')",
           backgroundSize: "cover",
@@ -40,9 +40,9 @@ const Page = () => {
           backgroundAttachment: "fixed",
           minHeight: "100vh",
         }}>
-        <div className='w-full h-full flex flex-col justify-center items-center gap-[40px]'>
-          <span className='text-[30px] font-[600]'>Ayo pelajari Machine Learning dan Artificial Intelegent lebih mendalam</span>
-          <div className="w-full flex gap-[20px] justify-center ">
+        <div className='w-full h-full flex flex-col justify-center items-center gap-[40px] py-[50px]'>
+          <span className='text-[30px] font-[600] max-[800px]:text-[18px] text-center'>Ayo pelajari Machine Learning dan Artificial Intelegent lebih mendalam</span>
+          <div className="w-full flex gap-[20px] justify-center flex-wrap">
             {
               konten?.map((items, i) => (
                 <div className="w-[300px] h-[400px] bg-white rounded-3xl shadow-2xl flex flex-col gap-[10px] justify-between" key={i}>

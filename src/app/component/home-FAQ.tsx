@@ -24,7 +24,7 @@ const HomeFAQ = () => {
   };
 
   return (
-    <div className="flex flex-col h-fit pt-[80px] w-full px-[100px] mb-[40px]" id="faq">
+    <div className="flex flex-col h-fit pt-[80px] w-full px-[100px] mb-[40px] max-[640px]:px-[50px]" id="faq">
       <span className="text-[30px] font-[600] text-center text-[#242424]">
         Frequently Asked Questions
       </span>

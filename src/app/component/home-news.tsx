@@ -133,7 +133,6 @@ const HomeNews = ({params} : {params:string}) => {
                                     {data[i].judul}
                                 </span>
                             </div>
-                            
                         </div>
                         ))}
                     </div>

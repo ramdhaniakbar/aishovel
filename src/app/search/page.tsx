@@ -58,8 +58,8 @@ const Search = () => {
                 minHeight: "100vh",
         }}>
           <Navbar page={false}/>
-          <div className="flex flex-col h-full pt-[80px] w-full px-[100px]">
-            <div className='flex flex-row gap-[20px] w-full justify-center mt-[40px]'>
+          <div className="flex flex-col h-full pt-[80px] w-full px-[100px] max-[640px]:px-[50px]">
+            <div className='flex flex-row gap-[20px] w-full justify-center mt-[40px] max-[640px]:flex-col'>
               <div className='bg-white shadow-md rounded-2xl w-full max-w-[700px] h-[50px] px-[20px] flex'>
                 <input type="text" className='w-full focus:outline-none' placeholder='Search'
                 value={inputSearch}

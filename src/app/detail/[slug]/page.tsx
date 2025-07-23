@@ -54,8 +54,8 @@ const Detail = () => {
                 minHeight: "100vh",
               }}>
           <Navbar page={false}/>
-          <div className='px-[100px] pt-[100px] w-full flex flex-col items-center'>
-                <span className='font-[700] text-[30px]'>{data?.nama}</span>
+          <div className='px-[100px] max-[640px]:px-[50px] pt-[100px] w-full flex flex-col items-center'>
+                <span className='font-[700] text-[30px] text-center'>{data?.nama}</span>
                 <p className='font-[300] text-center'>{data?.quote}</p>
           </div>
           <div className='max-[1000px]:flex-col max-[1000px]:px-[40px] max-[1000px]:h-fit min-h-[400px]  px-[100px] pt-[70px] w-full flex  gap-[20px]'>

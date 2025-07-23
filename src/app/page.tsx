@@ -128,7 +128,7 @@ export default function Home() {
               </p>
             <HomeNews params="home"/>
           </div>
-          <div className="flex flex-col h-fit pt-[80px] w-full px-[100px] gap-[50px]">
+          <div className="flex flex-col h-fit pt-[80px] w-full px-[100px] gap-[50px] max-[640px]:px-[50px]">
             <span className="text-[30px] font-[600] text-center">
               Apa yang membuat kami<span className="text-[#71C0BB]"> berbeda?</span>
             </span>
